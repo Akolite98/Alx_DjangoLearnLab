@@ -3,19 +3,21 @@ from .models import Library
 from django.shortcuts import render, redirect
 from .models import Book
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login  
 from django.contrib import messages
-
 
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()  # Save the user
+            login(request, user)  # Log the user in
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account created for {username}!')
-            return redirect('login')
+            return redirect('list_books')  # Redirect to a desired page after registration
     else:
         form = UserCreationForm()
+    return render(request, 'relationship_app/register.html', {'form': form})
     return render(request, 'relationship_app/register.html', {'form': form})
 
 def list_books(request):
