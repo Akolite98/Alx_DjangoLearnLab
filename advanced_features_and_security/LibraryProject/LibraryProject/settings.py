@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-uinnt0gl@d0-=82t6+6*2*_(fxgfk1yk1++5$c*z127r5i-x@9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -39,7 +39,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookshelf',
     'relationship_app',
+
 ]
+
+INSTALLED_APPS += ["csp"]
+
+MIDDLEWARE += [
+    "csp.middleware.CSPMiddleware",
+]
+
+CSP_DEFAULT_SRC = ["'self'"]  # Allow loading resources only from your domain
+CSP_SCRIPT_SRC = ["'self'", "https://trusted.cdn.com"]  # Allow trusted script sources
+CSP_STYLE_SRC = ["'self'", "https://trusted.styles.com"]  # Allow trusted CSS sources
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -124,6 +135,14 @@ AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+
+
+SECURE_BROWSER_XSS_FILTER = True  # Prevents XSS attacks
+X_FRAME_OPTIONS = "DENY"  # Prevents clickjacking attacks
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents MIME type sniffing
+
+CSRF_COOKIE_SECURE = True  # Ensures CSRF cookie is only sent over HTTPS
+SESSION_COOKIE_SECURE = True  # Ensures session cookie is only sent over HTTPS
 
 
 # Default primary key field type
