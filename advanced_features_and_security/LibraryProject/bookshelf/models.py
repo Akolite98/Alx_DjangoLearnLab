@@ -41,3 +41,12 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    
+    
+    class Meta:
+        permissions = [
+            ("can_view", "Can view post"),
+            ("can_create", "Can create post"),
+            ("can_edit", "Can edit post"),
+            ("can_delete", "Can delete post"),
+        ]
