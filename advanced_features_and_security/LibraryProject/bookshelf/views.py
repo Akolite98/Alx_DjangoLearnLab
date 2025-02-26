@@ -1,38 +1,16 @@
-from django.contrib.auth.decorators import permission_required, login_required
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post
-from .forms import PostForm
+from django.contrib.auth.decorators import permission_required
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Book
+from .forms import BookForm
 
-@permission_required('bookshelf.can_view', raise_exception=True)
-def post_list(request):
-    posts = Post.objects.all()
-    return render(request, 'bookshelf/post_list.html', {'posts': posts})
-
-@permission_required('bookshelf.can_create', raise_exception=True)
-def post_create(request):
+@permission_required('bookshelf.can_edit_book', raise_exception=True)
+def book_edit(request, pk):
+    book = get_object_or_404(Book, pk=pk)
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = BookForm(request.POST, instance=book)
         if form.is_valid():
             form.save()
-            return redirect('post_list')
+            return redirect('book_list')
     else:
-        form = PostForm()
-    return render(request, 'bookshelf/post_form.html', {'form': form})
-
-@permission_required('bookshelf.can_edit', raise_exception=True)
-def post_edit(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-            form.save()
-            return redirect('post_list')
-    else:
-        form = PostForm(instance=post)
-    return render(request, 'bookshelf/post_form.html', {'form': form})
-
-@permission_required('bookshelf.can_delete', raise_exception=True)
-def post_delete(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    post.delete()
-    return redirect('post_list')
+        form = BookForm(instance=book)
+    return render(request, 'bookshelf/book_form.html', {'form': form})
