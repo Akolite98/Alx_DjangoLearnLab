@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Book
 from .forms import BookForm
 from .forms import BookSearchForm 
+from .forms import ExampleForm 
 from django.views.decorators.csrf import csrf_protect
 
 @permission_required('bookshelf.can_edit_book', raise_exception=True)
