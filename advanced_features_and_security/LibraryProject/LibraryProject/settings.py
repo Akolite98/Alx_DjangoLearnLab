@@ -75,6 +75,8 @@ SECURE_BROWSER_XSS_FILTER = True
 # Prevent clickjacking attacks
 X_FRAME_OPTIONS = "DENY"  
 
+# Ensure Django detects HTTPS behind a proxy (e.g., Nginx, AWS ELB)
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
 
