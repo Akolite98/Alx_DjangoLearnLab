@@ -52,6 +52,32 @@ CSP_DEFAULT_SRC = ["'self'"]  # Allow loading resources only from your domain
 CSP_SCRIPT_SRC = ["'self'", "https://trusted.cdn.com"]  # Allow trusted script sources
 CSP_STYLE_SRC = ["'self'", "https://trusted.styles.com"]  # Allow trusted CSS sources
 
+# Redirect all non-HTTPS requests to HTTPS
+SECURE_SSL_REDIRECT = True  
+
+# Enforce HTTP Strict Transport Security (HSTS)
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains
+SECURE_HSTS_PRELOAD = True  # Allow preloading HSTS for better security
+
+# Ensure session cookies are only sent over HTTPS
+SESSION_COOKIE_SECURE = True  
+
+# Ensure CSRF cookies are only sent over HTTPS
+CSRF_COOKIE_SECURE = True  
+
+# Prevent browsers from MIME-sniffing content
+SECURE_CONTENT_TYPE_NOSNIFF = True  
+
+# Enable browser-based XSS filtering
+SECURE_BROWSER_XSS_FILTER = True  
+
+# Prevent clickjacking attacks
+X_FRAME_OPTIONS = "DENY"  
+
+
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
