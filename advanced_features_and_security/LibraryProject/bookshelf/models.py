@@ -42,11 +42,18 @@ class Post(models.Model):
     def __str__(self):
         return self.title
     
+    class Book(models.Model):
+        title = models.CharField(max_length=200)
+        author = models.CharField(max_length=200)
+        description = models.TextField()
     
-    class Meta:
-        permissions = [
-            ("can_view", "Can view post"),
-            ("can_create", "Can create post"),
-            ("can_edit", "Can edit post"),
-            ("can_delete", "Can delete post"),
-        ]
+        def __str__(self):
+            return self.title
+    
+        class Meta:
+            permissions = [
+                ("can_view_book", "Can view book"),
+                ("can_create_book", "Can create book"),
+                ("can_edit_book", "Can edit book"),
+                ("can_delete_book", "Can delete book"),
+            ]
