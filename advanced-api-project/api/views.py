@@ -15,12 +15,3 @@ class BookListView(generics.ListAPIView):
     
     # Fields allowed for filtering
     filterset_fields = ['title', 'author__name', 'publication_year']
-    
-    # Fields allowed for searching
-    search_fields = ['title', 'author__name']
-    
-    # Fields allowed for ordering
-    ordering_fields = ['title', 'publication_year']
-    
-    # Default ordering (optional)
-    ordering = ['title']
