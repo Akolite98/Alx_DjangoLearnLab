@@ -1,33 +1,26 @@
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework import generics, filters
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .models import Book
 from .serializers import BookSerializer
 
-
 class BookListView(generics.ListAPIView):
-    """Retrieve a list of all books."""
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-
-class BookDetailView(generics.RetrieveAPIView):
-    """Retrieve details of a single book by ID."""
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-
-class BookCreateView(generics.CreateAPIView):
-    """Create a new book (only for authenticated users)."""
+    """Retrieve a list of all books with filtering, searching, and ordering."""
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-
-class BookUpdateView(generics.UpdateAPIView):
-    """Update an existing book (only for authenticated users)."""
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-class BookDeleteView(generics.DestroyAPIView):
-    """Delete a book by ID (only for authenticated users)."""
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    
+    # Enable filtering, searching, and ordering
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    
+    # Fields allowed for filtering
+    filterset_fields = ['title', 'author__name', 'publication_year']
+    
+    # Fields allowed for searching
+    search_fields = ['title', 'author__name']
+    
+    # Fields allowed for ordering
+    ordering_fields = ['title', 'publication_year']
+    
+    # Default ordering (optional)
+    ordering = ['title']
