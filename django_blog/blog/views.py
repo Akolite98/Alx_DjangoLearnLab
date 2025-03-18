@@ -81,7 +81,8 @@ class CommentUpdateView(UpdateView):
 
 class CommentDeleteView(DeleteView):
     model = Comment
-    template_name = "blog/comment_confirm_delete.html"
+    template_name = 'blog/comment_confirm_delete.html'
+    success_url = reverse_lazy('post_list')  
 
     def get_queryset(self):
         return Comment.objects.filter(author=self.request.user)  # Ensure only the author can delete
