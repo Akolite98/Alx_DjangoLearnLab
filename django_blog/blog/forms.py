@@ -2,6 +2,7 @@ from taggit.forms import TagField
 from django import forms
 from .models import Post
 from .models import Comment 
+from django.forms import widgets  
 
 class PostForm(forms.ModelForm):
     tags = TagField(required=False)  # Allow users to add comma-separated tags
