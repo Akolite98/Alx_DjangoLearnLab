@@ -1,6 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from taggit.managers import TaggableManager
+
+class Post(models.Model):
+    # Existing fields...
+    tags = TaggableManager()
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
