@@ -20,4 +20,5 @@ urlpatterns = [
 
     path('search/', search_posts, name='search-posts'),  # New search URL
         path('tags/<str:tag_name>/', posts_by_tag, name='posts-by-tag'),
+           path("tags/<slug:tag_slug>/", PostByTagListView.as_view(), name="post_by_tag"),
 ]
