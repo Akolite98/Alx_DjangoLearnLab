@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from .models import Post, Comment
 from .forms import CommentForm
+from taggit.models import Tag
 
 # Existing PostListView
 class PostListView(ListView):
@@ -19,29 +20,47 @@ class PostDetailView(DetailView):
     model = Post
     template_name = 'blog/post_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tags'] = self.object.tags.all()  # Fetch tags for the post
+        return context
+
 # Ensure PostCreateView is defined
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
+    form_class = PostForm
     template_name = 'blog/post_form.html'
-    fields = ['title', 'content']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form)  # Save post first
+
+        # Handle tags (if using django-taggit)
+        tags = self.request.POST.get('tags')
+        if tags:
+            tag_list = [tag.strip() for tag in tags.split(',')]
+            form.instance.tags.set(tag_list)  # Assign tags
+
+        return response
+
 
 # Existing PostUpdateView
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
+    form_class = PostForm
     template_name = 'blog/post_form.html'
-    fields = ['title', 'content']
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form)
 
-    def test_func(self):
-        post = self.get_object()
-        return self.request.user == post.author
+        # Update tags
+        tags = self.request.POST.get('tags')
+        if tags:
+            tag_list = [tag.strip() for tag in tags.split(',')]
+            form.instance.tags.set(tag_list)
+
+        return response
+
 
 # Existing PostDeleteView
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):

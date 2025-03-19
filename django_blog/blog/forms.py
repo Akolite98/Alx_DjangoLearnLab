@@ -1,10 +1,8 @@
-from django import forms
-from .models import Comment
+from taggit.forms import TagField
 
-class CommentForm(forms.ModelForm):
+class PostForm(forms.ModelForm):
+    tags = TagField(required=False)  # Allow users to add comma-separated tags
+
     class Meta:
-        model = Comment
-        fields = ['content']
-        widgets = {
-            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 3})
-        }
+        model = Post
+        fields = ['title', 'content', 'tags']
