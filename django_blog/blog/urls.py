@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import search_posts
+from .views import posts_by_tag
 from .views import (
     PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView,
     CommentCreateView, CommentUpdateView, CommentDeleteView
@@ -18,4 +19,5 @@ urlpatterns = [
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),  
 
     path('search/', search_posts, name='search-posts'),  # New search URL
+        path('tags/<str:tag_name>/', posts_by_tag, name='posts-by-tag'),
 ]
