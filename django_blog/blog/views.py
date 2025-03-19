@@ -3,10 +3,15 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
+from .forms import PostForm
 from .models import Post, Comment, Tag
 from .forms import CommentForm
 from taggit.models import Tag
 from django.db.models import Q
+import importlib
+
+forms = importlib.import_module("blog.forms")
+CommentForm = forms.CommentForm
 
 # Post List View with Tag Filtering
 class PostListView(ListView):
