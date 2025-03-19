@@ -14,6 +14,7 @@ class PostListView(ListView):
     template_name = 'blog/post_list.html'
     context_object_name = 'posts'
     ordering = ['-date_posted']
+    paginate_by = 5 
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -126,9 +127,7 @@ def search_posts(request):
         ).distinct()
 
     return render(request, 'blog/search_results.html', {'posts': posts, 'query': query})
-
- def posts_by_tag(request, tag_name):
-    tag = get_object_or_404(Tag, name=tag_name)
-    posts = Post.objects.filter(tags=tag)
-
-    return render(request, 'blog/posts_by_tag.html', {'tag': tag, 'posts': posts})
+def posts_by_tag(request, tag_name):
+     tag = get_object_or_404(Tag, name=tag_name)
+     posts = Post.objects.filter(tags=tag)
+     return render(request, 'blog/posts_by_tag.html', {'tag': tag, 'posts': posts})
