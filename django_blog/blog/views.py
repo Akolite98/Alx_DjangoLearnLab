@@ -7,6 +7,10 @@ from django.urls import reverse_lazy
 from .models import Post, Comment
 from .forms import CommentForm
 from taggit.models import Tag
+from django.db.models import Q
+from .models import Post
+
+
 
 # Existing PostListView
 class PostListView(ListView):
@@ -108,3 +112,17 @@ class CommentDeleteView(DeleteView):
 
     def get_success_url(self):
         return self.object.post.get_absolute_url()
+
+        
+def search_posts(request):
+    query = request.GET.get('q')  # Get search query from request
+    posts = Post.objects.all()
+
+    if query:
+        posts = posts.filter(
+            Q(title__icontains=query) |  # Search in title
+            Q(content__icontains=query) |  # Search in content
+            Q(tags__name__icontains=query)  # Search in tags (if using django-taggit)
+        ).distinct()
+
+    return render(request, 'blog/search_results.html', {'posts': posts, 'query': query})
