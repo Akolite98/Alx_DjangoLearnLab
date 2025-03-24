@@ -1,11 +1,6 @@
-# accounts/urls.py
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import FollowViewSet  # Only accounts-related views
-
-router = DefaultRouter()
-router.register(r'users', FollowViewSet, basename='user-follow')
+from django.urls import path
+from .views import FollowUnfollowView
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('users/<int:pk>/follow/', FollowUnfollowView.as_view(), name='follow-unfollow'),
 ]
