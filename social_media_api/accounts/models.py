@@ -10,11 +10,17 @@ class User(AbstractUser):
         blank=True, 
         null=True
     )
-    followers = models.ManyToManyField(
+    # followers = models.ManyToManyField(
+    #     'self',
+    #     symmetrical=False,
+    #     blank=True,
+    #     related_name='following'
+    # )
+    following = models.ManyToManyField(
         'self',
         symmetrical=False,
         blank=True,
-        related_name='following'
+        related_name='followers'
     )
 
     def __str__(self):
