@@ -6,10 +6,26 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.viewsets import GenericViewSet
 from django.shortcuts import get_object_or_404
-
 from accounts.serializers import UserSerializer
+from posts.models import Post
 from .models import User
 from .serializers import FollowSerializer
+from .serializers import PostSerializer
+from django.db.models import Q
+
+
+class FeedView(Generic.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Get posts from users the current user follows
+        following_users = self.request.user.following.all()
+        return Post.objects.filter(
+            Q(author__in=following_users) | Q(author=self.request.user)
+        ).order_by('-created_at')
+
+
 
 class FollowViewSet(GenericViewSet):
     queryset = User.objects.all()
