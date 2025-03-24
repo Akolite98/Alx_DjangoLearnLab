@@ -30,3 +30,12 @@
 ### **Filtering**  
 - `GET /api/posts/?title=example` → Filter by title  
 - `GET /api/posts/?author=username` → Filter by author  
+
+## **Follow & Feed API Endpoints**
+
+### **Follow Management**
+- `POST /api/auth/users/{user_id}/follow/` → Follow a user
+- `POST /api/auth/users/{user_id}/unfollow/` → Unfollow a user
+
+### **User Feed**
+- `GET /api/feed/` → Get posts from followed users (auth required)
