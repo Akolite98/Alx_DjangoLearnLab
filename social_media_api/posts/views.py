@@ -1,9 +1,8 @@
-# posts/views.py
 from rest_framework import viewsets, generics, permissions
 from django.db.models import Q
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
-from accounts.models import User  # If needed for relationships
+from accounts.models import CustomUser  # Updated import
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('-created_at')

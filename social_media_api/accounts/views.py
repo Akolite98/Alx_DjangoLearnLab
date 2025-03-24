@@ -1,17 +1,16 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .models import User  # or User if that's your model name
+from .models import CustomUser 
 from .serializers import UserSerializer
 
 class FollowUnfollowView(generics.GenericAPIView):
-    # Use your exact custom user model name here
-    queryset = User.objects.all()  # Changed from User to CustomUser
+    queryset = CustomUser.objects.all()  # Using CustomUser as required
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        target_user = get_object_or_404(User, pk=kwargs.get('pk'))  # Changed here too
+        target_user = get_object_or_404(CustomUser, pk=kwargs.get('pk'))  # Changed here too
         
         if request.user == target_user:
             return Response(
