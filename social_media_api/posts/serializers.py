@@ -1,9 +1,10 @@
+# posts/serializers.py
 from rest_framework import serializers
 from .models import Post, Comment
 from accounts.serializers import UserSerializer
 
 class CommentSerializer(serializers.ModelSerializer):
-    author = UserSerializer(read_only=True)  # Avoid user input for author
+    author = UserSerializer(read_only=True)
     
     class Meta:
         model = Comment
@@ -12,7 +13,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
-    comments = CommentSerializer(many=True, read_only=True)  # Nested comments
+    comments = CommentSerializer(many=True, read_only=True)
     
     class Meta:
         model = Post
