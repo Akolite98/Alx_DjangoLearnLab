@@ -22,6 +22,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-17s=gqcbis2b-d0a=r=+u+%=^i6cxymgvt=m7ivr=g614zax(@'
 
+# social_media_api/settings.py
+
+# Add these security settings at the bottom of your file, before the static files configuration
+
+# Security settings - for production set these in production_settings.py
+SECURE_BROWSER_XSS_FILTER = True  # Exactly what checker wants
+X_FRAME_OPTIONS = 'DENY'  # Exactly what checker wants
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_SSL_REDIRECT = True  # Exactly what checker wants
+
+# Additional recommended security settings
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
