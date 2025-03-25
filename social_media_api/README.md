@@ -39,3 +39,13 @@
 
 ### **User Feed**
 - `GET /api/feed/` → Get posts from followed users (auth required)
+
+## Likes and Notifications API
+
+### Likes
+- `POST /api/posts/{id}/like/` - Like a post
+- `POST /api/posts/{id}/unlike/` - Unlike a post
+
+### Notifications
+- `GET /api/notifications/` - List all notifications
+- `POST /api/notifications/{id}/read/` - Mark notification as read
