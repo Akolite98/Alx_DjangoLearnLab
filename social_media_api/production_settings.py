@@ -1,5 +1,14 @@
 # social_media_api/production_settings.py
 from .settings import *
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn="your-sentry-dsn",
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,
+    send_default_pii=True
+)
 
 DEBUG = False
 ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com']  # Update with your domain
